@@ -6,6 +6,7 @@ import { ChatPromptCard } from "./chat-prompt-card";
 import { WelcomeHeader } from "./welcome-header";
 import { motion } from "framer-motion";
 import { Code, Image, MessageSquare, FileText } from "lucide-react";
+import Teams from "../Teams";
 
 interface HeroProps {
   username?: string;
@@ -64,6 +65,9 @@ export function Hero({ username = "Guest" }: HeroProps) {
       variants={containerVariants}
       className="flex flex-col items-center justify-center min-h-screen p-4 bg-background"
     >
+      <div className="w-full">
+        <Teams />
+      </div>
       <div className="w-full max-w-3xl space-y-8">
         <motion.div variants={itemVariants}>
           <WelcomeHeader username={username} />
@@ -89,7 +93,7 @@ export function Hero({ username = "Guest" }: HeroProps) {
             <div className="flex flex-col space-y-4">
               <div className="flex flex-col space-y-2">
                 <Textarea
-                  className="min-h-[100px] resize-none p-3 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 rounded-none"
+                  className="min-h-[100px] resize-none p-3 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 rounded-none text-sm sm:text-md"
                   placeholder="Ask whatever you want..."
                   value={prompt}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

@@ -8,7 +8,7 @@ export function WelcomeHeader({ username }: WelcomeHeaderProps) {
       <h1 className="text-4xl font-bold tracking-tight">
         Hi there, <span className="text-foreground">{username}</span>
       </h1>
-      <p className="text-xl text-muted-foreground">
+      <p className="text-4xl font-bold text-muted-foreground">
         What would you like to know?
       </p>
       <p className="text-sm text-muted-foreground">

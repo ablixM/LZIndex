@@ -4,8 +4,8 @@ import { Hero } from "../components/landingPage/Hero";
 export function ChatPage() {
   return (
     <>
-      <div className="mb-10">
-        <Hero username="John" />
+      <div className="mb-4">
+        <Hero username="" />
       </div>
       <Footer />
     </>
