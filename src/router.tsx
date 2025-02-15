@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "./pages/Layout";
 import ChatPage from "./pages/ChatPage";
 import PromptPage from "./pages/PromptPage";
@@ -12,6 +12,9 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Navigate to="/chat" replace />,
+      },
+      {
         path: "/chat",
         element: <ChatPage />,
       },
