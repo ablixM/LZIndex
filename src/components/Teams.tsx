@@ -17,8 +17,8 @@ const teamMembers: TeamMember[] = [
 function Teams() {
   return (
     <div className="container relative z-10 flex flex-col gap-8 py-8 max-w-[1400px] mx-auto px-4 sm:px-6">
-      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 bg-primary/80 ">
-        <span className="text-xs sm:text-sm text-white flex items-center bg-primary/90 px-3 py-1.5 rounded-md shadow-sm">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 ">
+        <span className="text-xs sm:text-sm text-white flex items-center px-3 py-1.5 rounded-md shadow-sm">
           Made with{" "}
           <Heart className="w-3 h-3 sm:w-4 sm:h-4 mx-1.5 text-red-500 animate-pulse" />{" "}
           by
