@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "LFT Etica";
+  src: url("/public/fonts/LFTEticaMono-Regular.woff") format("woff"),
+    url("/public/fonts/LFTEticaMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LFT Etica";
+  src: url("/public/fonts/LFTEticaMono-Bold.woff") format("woff"),
+    url("/public/fonts/LFTEticaMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LFT Etica";
+  src: url("/public/fonts/LFTEticaMono-SemiBold.woff") format("woff"),
+    url("/public/fonts/LFTEticaMono-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LFT Etica";
+  src: url("/public/fonts/LFTEticaMono-Light.woff") format("woff"),
+    url("/public/fonts/LFTEticaMono-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LFT Etica";
+  src: url("/public/fonts/LFTEticaMono-Book.woff") format("woff"),
+    url("/public/fonts/LFTEticaMono-Book.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
