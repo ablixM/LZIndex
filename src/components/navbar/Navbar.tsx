@@ -1,65 +1,59 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Menu } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "../../components/ui/sheet";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { MatrixTypeText } from "../ui/matrix-type-text";
+import { ThemeToggle } from "../ui/theme-toggle";
 
-interface NavItem {
-  name: string;
-  href: string;
-}
+// interface NavItem {
+//   name: string;
+//   href: string;
+// }
 
-const navItems: NavItem[] = [
-  { name: "<A/> Chat", href: "/chat" },
-  { name: "<A/> Prompts", href: "/prompt" },
-  { name: "<A/> About", href: "/about" },
-  { name: "<A/> Attributions", href: "/attributions" },
-];
+// const navItems: NavItem[] = [
+//   { name: "<A/> Chat", href: "/chat" },
+//   { name: "<A/> Prompts", href: "/prompt" },
+//   { name: "<A/> About", href: "/about" },
+//   { name: "<A/> Attributions", href: "/attributions" },
+// ];
 
 export default function Navbar() {
-  const location = useLocation();
+  // const location = useLocation();
 
   // Add animation refs and handlers
   const sheetContentRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const getCurrentNavItem = useCallback(() => {
-    const currentPath = location.pathname;
-    return (
-      navItems.find(
-        (item) =>
-          currentPath === item.href ||
-          (item.href !== "/" && currentPath.startsWith(item.href))
-      )?.name || "Chat"
-    );
-  }, [location.pathname]);
+  // const getCurrentNavItem = useCallback(() => {
+  //   const currentPath = location.pathname;
+  //   return (
+  //     navItems.find(
+  //       (item) =>
+  //         currentPath === item.href ||
+  //         (item.href !== "/" && currentPath.startsWith(item.href))
+  //     )?.name || "Chat"
+  //   );
+  // }, [location.pathname]);
 
-  const [activeItem, setActiveItem] = useState(getCurrentNavItem());
+  // const [activeItem, setActiveItem] = useState(getCurrentNavItem());
 
-  // Update active item when route changes
-  useEffect(() => {
-    setActiveItem(getCurrentNavItem());
-  }, [location, getCurrentNavItem]);
+  // // Update active item when route changes
+  // useEffect(() => {
+  //   setActiveItem(getCurrentNavItem());
+  // }, [location, getCurrentNavItem]);
 
-  const handleItemClick = (itemName: string) => {
-    setActiveItem(itemName);
-    setAnimateSheetContent(null);
-  };
+  // const handleItemClick = (itemName: string) => {
+  //   setActiveItem(itemName);
+  //   setAnimateSheetContent(null);
+  // };
 
   // Replace the animateSheetContent callback with useGSAP
-  const [animateSheetContent, setAnimateSheetContent] = useState<
-    ((isOpen: boolean) => void) | null
-  >(null);
+  // const [animateSheetContent, setAnimateSheetContent] = useState<
+  //   ((isOpen: boolean) => void) | null
+  // >(null);
 
   useGSAP(() => {
     if (!sheetContentRef.current) return;
@@ -84,12 +78,12 @@ export default function Navbar() {
       }
     );
 
-    setAnimateSheetContent(() => (isOpen: boolean) => {
-      if (isOpen) {
-        slideIn.play();
-        staggerLinks.play();
-      }
-    });
+    // setAnimateSheetContent(() => (isOpen: boolean) => {
+    //   if (isOpen) {
+    //     slideIn.play();
+    //     staggerLinks.play();
+    //   }
+    // });
 
     return () => {
       slideIn.kill();
@@ -100,45 +94,14 @@ export default function Navbar() {
   return (
     <nav className="border-border/40">
       <div className="max-w-[1400px] mx-auto px-4 h-14 flex items-center justify-between">
-        <Link
-          to="/"
-          className="font text-2xl sm:text-md md:text-lg text-gray-500"
-        >
+        <Link to="/" className="font text-2xl sm:text-md md:text-lg ">
           LZAI
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 px-10">
-          {navItems.map((item, index) => (
-            <div key={item.name} className="flex items-center">
-              <Link
-                to={item.href}
-                className={`relative px-8 transition-colors hover:text-white text-md `}
-                onClick={() => handleItemClick(item.name)}
-                data-name={item.name}
-              >
-                <span
-                  className={`${
-                    activeItem === item.name
-                      ? "text-white"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <MatrixTypeText
-                    text={item.name}
-                    isActive={activeItem === item.name}
-                    className="pointer-events-auto select-none"
-                  />
-                </span>
-              </Link>
-              {index < navItems.length - 1 && (
-                <div className="h-6 w-[1px] bg-border/40" />
-              )}
-            </div>
-          ))}
-        </div>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Button
             className="relative group px-8 py-2 bg-neutral-400 hover:bg-neutral-500 text-white rounded-md 
             shadow-[0px_14px_56px_-11px_#b0b0b0] transition-all duration-300 w-[150px] overflow-hidden"
@@ -152,7 +115,7 @@ export default function Navbar() {
           </Button>
 
           {/* Mobile Navigation */}
-          <Sheet onOpenChange={animateSheetContent ?? (() => {})}>
+          {/* <Sheet onOpenChange={animateSheetContent ?? (() => {})}>
             <SheetTrigger asChild className="md:hidden ml-2">
               <Button
                 className="rounded-md bg-cod-gray-900 hover:bg-cod-gray-800"
@@ -187,9 +150,15 @@ export default function Navbar() {
                     </Link>
                   </SheetClose>
                 ))}
+                <div className="flex items-center justify-between mt-2 px-3 py-2">
+                  <span className="text-muted-foreground text-xs sm:text-md">
+                    Toggle Theme
+                  </span>
+                  <ThemeToggle />
+                </div>
               </div>
             </SheetContent>
-          </Sheet>
+          </Sheet> */}
         </div>
       </div>
     </nav>
