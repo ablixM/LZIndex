@@ -2,11 +2,7 @@ import { Link } from "react-router-dom";
 import { MatrixTypeText } from "./ui/matrix-type-text";
 
 const footerLinks = {
-  LayerZero: [
-    { name: "About", href: "/about" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
-  ],
+  LayerZero: [{ name: "About", href: "/about" }],
 };
 
 export function Footer() {
