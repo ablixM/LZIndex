@@ -22,7 +22,7 @@ app.use(
     origin:
       [
         process.env.FRONTEND_URL,
-        "https://lz-ai.vercel.app",
+
         "https://lzindex-server.onrender.com",
         "http://localhost:5173",
       ] || "*",

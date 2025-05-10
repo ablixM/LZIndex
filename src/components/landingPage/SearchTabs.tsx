@@ -49,8 +49,14 @@ export function SearchTabs() {
     setHasSearched(true);
 
     try {
+      const baseUrl = import.meta.env.PROD
+        ? "https://lzindex-server.onrender.com"
+        : "";
+
       const response = await fetch(
-        `/api/search?q=${encodeURIComponent(keyword)}&type=${contentType}`
+        `${baseUrl}/api/search?q=${encodeURIComponent(
+          keyword
+        )}&type=${contentType}`
       );
 
       if (!response.ok) {
