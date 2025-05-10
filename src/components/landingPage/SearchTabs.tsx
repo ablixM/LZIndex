@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Input } from "../ui/input";
 import {
@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { SearchResults, SearchResult } from "./SearchResults";
 
 export function SearchTabs() {
@@ -20,6 +20,47 @@ export function SearchTabs() {
   const [hasSearched, setHasSearched] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [showQuestionOptions, setShowQuestionOptions] = useState(true);
+  const [showKeywordOptions, setShowKeywordOptions] = useState(true);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Effect to scroll to results when they're loaded
+  useEffect(() => {
+    if (hasSearched && !isLoading && resultsRef.current) {
+      // Custom smooth scroll implementation
+      const scrollToElement = (element: HTMLElement) => {
+        const startPosition = window.pageYOffset;
+        const targetPosition =
+          element.getBoundingClientRect().top + window.pageYOffset - 20;
+        const distance = targetPosition - startPosition;
+        const duration = 500; // ms
+        let start: number | null = null;
+
+        const step = (timestamp: number) => {
+          if (!start) start = timestamp;
+          const elapsed = timestamp - start;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Easing function for smoother animation
+          const easeInOutQuad = (t: number) =>
+            t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+          window.scrollTo(
+            0,
+            startPosition + distance * easeInOutQuad(progress)
+          );
+
+          if (elapsed < duration) {
+            window.requestAnimationFrame(step);
+          }
+        };
+
+        window.requestAnimationFrame(step);
+      };
+
+      scrollToElement(resultsRef.current);
+    }
+  }, [hasSearched, isLoading, results]);
 
   // Sort keyword options by length to fit more on a row
   const keywordOptions = [
@@ -47,6 +88,8 @@ export function SearchTabs() {
     setIsLoading(true);
     setError(null);
     setHasSearched(true);
+    setShowQuestionOptions(false);
+    setShowKeywordOptions(false);
 
     try {
       const baseUrl = import.meta.env.PROD
@@ -112,19 +155,38 @@ export function SearchTabs() {
     }
   };
 
+  const toggleQuestionOptions = () => {
+    setShowQuestionOptions(!showQuestionOptions);
+  };
+
+  const toggleKeywordOptions = () => {
+    setShowKeywordOptions(!showKeywordOptions);
+  };
+
+  const resetSearch = () => {
+    setHasSearched(false);
+    setShowQuestionOptions(true);
+    setShowKeywordOptions(true);
+    setKeyword("");
+    setResults([]);
+    setError(null);
+  };
+
   return (
     <div className="w-full">
       <Tabs defaultValue="ask" className="w-full rounded-sm">
-        <TabsList className="w-full mb-4 rounded-sm h-12 md:h-16">
+        <TabsList className="w-full mb-4 rounded-sm h-16">
           <TabsTrigger
             value="ask"
-            className="flex-1 py-2 md:py-4 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            className="flex-1 py-6 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            onClick={resetSearch}
           >
             Ask a question
           </TabsTrigger>
           <TabsTrigger
             value="keyword"
-            className="flex-1 py-2 md:py-4 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            className="flex-1 py-6 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            onClick={resetSearch}
           >
             Keyword Search
           </TabsTrigger>
@@ -133,7 +195,7 @@ export function SearchTabs() {
         <TabsContent value="ask" className="mt-0">
           <div className="flex flex-col space-y-4">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none p-2 md:p-4 rounded-sm">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none p-4 rounded-sm">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
                   aria-hidden="true"
@@ -151,7 +213,7 @@ export function SearchTabs() {
                 </svg>
               </div>
               <Input
-                className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-xs md:text-base rounded-sm p-8 px-16"
+                className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-sm md:text-base rounded-sm p-8 px-16"
                 type="search"
                 placeholder="Ask anything about LayerZero"
                 value={keyword}
@@ -171,29 +233,46 @@ export function SearchTabs() {
               </Button>
             </div>
 
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-4">
-                Get started with a question
-              </h3>
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                {questionOptions.map((question) => (
-                  <div
-                    key={question}
-                    className="bg-background border border-border py-2 px-3 text-xs sm:text-sm md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors line-clamp-2 h-auto flex items-center"
-                    tabIndex={0}
-                    aria-label={`Search for ${question}`}
-                    onClick={() => handleQuestionClick(question)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        handleQuestionClick(question);
-                      }
-                    }}
-                  >
-                    {question}
+            {(!hasSearched || showQuestionOptions) && (
+              <div className="mt-6">
+                <div
+                  className="flex justify-between items-center cursor-pointer mb-4"
+                  onClick={toggleQuestionOptions}
+                >
+                  <h3 className="text-lg font-medium">
+                    Get started with a question
+                  </h3>
+                  <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
+                    {showQuestionOptions ? (
+                      <ChevronUp className="h-5 w-5" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5" />
+                    )}
+                  </Button>
+                </div>
+
+                {showQuestionOptions && (
+                  <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {questionOptions.map((question) => (
+                      <div
+                        key={question}
+                        className="bg-background border border-border py-2 px-3 text-xs sm:text-sm md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors line-clamp-2 h-auto flex items-center"
+                        tabIndex={0}
+                        aria-label={`Search for ${question}`}
+                        onClick={() => handleQuestionClick(question)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            handleQuestionClick(question);
+                          }
+                        }}
+                      >
+                        {question}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            </div>
+            )}
           </div>
         </TabsContent>
 
@@ -219,7 +298,7 @@ export function SearchTabs() {
                   </svg>
                 </div>
                 <Input
-                  className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-xs md:text-base rounded-sm p-8 px-16"
+                  className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-sm md:text-base rounded-sm p-8 px-16"
                   type="search"
                   placeholder="Search keywords"
                   value={keyword}
@@ -259,40 +338,59 @@ export function SearchTabs() {
               </div>
             </div>
 
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-4">
-                Choose a keyword to get started
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {keywordOptions.map((keywordOption) => (
-                  <div
-                    key={keywordOption}
-                    className="bg-background border border-border py-2 px-4 text-xs md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors whitespace-nowrap"
-                    onClick={() => handleKeywordClick(keywordOption)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        handleKeywordClick(keywordOption);
-                      }
-                    }}
-                    tabIndex={0}
-                    aria-label={`Search for ${keywordOption}`}
-                  >
-                    {keywordOption}
+            {(!hasSearched || showKeywordOptions) && (
+              <div className="mt-6">
+                <div
+                  className="flex justify-between items-center cursor-pointer mb-4"
+                  onClick={toggleKeywordOptions}
+                >
+                  <h3 className="text-lg font-medium">
+                    Choose a keyword to get started
+                  </h3>
+                  <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
+                    {showKeywordOptions ? (
+                      <ChevronUp className="h-5 w-5" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5" />
+                    )}
+                  </Button>
+                </div>
+
+                {showKeywordOptions && (
+                  <div className="flex flex-wrap gap-2">
+                    {keywordOptions.map((keywordOption) => (
+                      <div
+                        key={keywordOption}
+                        className="bg-background border border-border py-2 px-4 text-sm md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors whitespace-nowrap"
+                        onClick={() => handleKeywordClick(keywordOption)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            handleKeywordClick(keywordOption);
+                          }
+                        }}
+                        tabIndex={0}
+                        aria-label={`Search for ${keywordOption}`}
+                      >
+                        {keywordOption}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            </div>
+            )}
           </div>
         </TabsContent>
       </Tabs>
 
       {hasSearched && (
-        <SearchResults
-          keyword={keyword}
-          isLoading={isLoading}
-          error={error}
-          results={results}
-        />
+        <div ref={resultsRef} className="mb-16">
+          <SearchResults
+            keyword={keyword}
+            isLoading={isLoading}
+            error={error}
+            results={results}
+          />
+        </div>
       )}
     </div>
   );

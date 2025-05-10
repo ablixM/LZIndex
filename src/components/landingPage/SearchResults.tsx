@@ -56,7 +56,7 @@ export function SearchResults({
   }
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="mt-8 space-y-6 pb-12 md:pb-16">
       <h2 className="text-xl font-semibold">Search Results for "{keyword}"</h2>
       <div className="flex justify-between items-center">
         <p className="text-xs md:text-base text-muted-foreground">
