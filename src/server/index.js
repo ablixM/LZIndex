@@ -25,6 +25,7 @@ app.use(
         "https://lzindex.vercel.app",
         "https://lzindex-server.onrender.com",
         "http://localhost:5173",
+        "https://lzindex.vercel.app",
       ] || "*",
     methods: ["GET", "POST"],
     credentials: true,
