@@ -1,11 +1,9 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-  "routes": [
-    { "handle": "filesystem" },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://lzindex-server.onrender.com/api/$1"
+      "source": "/api/(.*)",
+      "destination": "https://lzindex-server.onrender.com/api/$1"
     },
-    { "src": "/(.*)", "dest": "/" }
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
