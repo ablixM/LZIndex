@@ -3,7 +3,7 @@ import { WelcomeHeader } from "./welcome-header";
 import { motion } from "framer-motion";
 
 import { cn } from "../../lib/utils";
-import heroImage from "../../assets/hImage.png";
+
 import { SearchTabs } from "./SearchTabs";
 
 export function Hero() {

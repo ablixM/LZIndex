@@ -50,7 +50,9 @@ export function SearchTabs() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/search?q=${encodeURIComponent(keyword)}`
+        `http://localhost:5000/api/search?q=${encodeURIComponent(
+          keyword
+        )}&type=${contentType}`
       );
 
       if (!response.ok) {
