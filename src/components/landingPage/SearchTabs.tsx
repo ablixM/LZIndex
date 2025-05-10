@@ -29,9 +29,10 @@ export function SearchTabs() {
     if (hasSearched && !isLoading && resultsRef.current) {
       // Custom smooth scroll implementation
       const scrollToElement = (element: HTMLElement) => {
-        const startPosition = window.pageYOffset;
+        // Use window.scrollY instead of pageYOffset (deprecated)
+        const startPosition = window.scrollY;
         const targetPosition =
-          element.getBoundingClientRect().top + window.pageYOffset - 20;
+          element.getBoundingClientRect().top + window.scrollY - 20;
         const distance = targetPosition - startPosition;
         const duration = 500; // ms
         let start: number | null = null;
@@ -45,10 +46,10 @@ export function SearchTabs() {
           const easeInOutQuad = (t: number) =>
             t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-          window.scrollTo(
-            0,
-            startPosition + distance * easeInOutQuad(progress)
-          );
+          window.scrollTo({
+            top: startPosition + distance * easeInOutQuad(progress),
+            behavior: "auto", // We're handling the animation manually
+          });
 
           if (elapsed < duration) {
             window.requestAnimationFrame(step);
@@ -58,7 +59,16 @@ export function SearchTabs() {
         window.requestAnimationFrame(step);
       };
 
-      scrollToElement(resultsRef.current);
+      // Fallback to native smooth scrolling if our custom implementation fails
+      try {
+        scrollToElement(resultsRef.current);
+      } catch (err) {
+        console.error("Custom scroll failed, using native smooth scroll", err);
+        resultsRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
     }
   }, [hasSearched, isLoading, results]);
 

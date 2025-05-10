@@ -47,7 +47,7 @@ export function SearchResults({
     );
   }
 
-  if (results.length === 0) {
+  if (results?.length === 0) {
     return (
       <div className="mt-8 p-4 bg-secondary/30 border border-border rounded-sm text-xs md:text-base">
         No results found for "{keyword}". Try a different search term.
@@ -63,9 +63,15 @@ export function SearchResults({
           Found {results.length} result{results.length !== 1 ? "s" : ""}
         </p>
       </div>
-      {results.map((result, index) => (
-        <SearchResultCard key={index} result={result} />
-      ))}
+      {Array.isArray(results) ? (
+        results.map((result, index) => (
+          <SearchResultCard key={index} result={result} />
+        ))
+      ) : (
+        <div className="p-4 bg-secondary/30 border border-border rounded-sm text-xs md:text-base">
+          Invalid results format. Please try your search again.
+        </div>
+      )}
     </div>
   );
 }
