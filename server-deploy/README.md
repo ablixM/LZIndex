@@ -2,12 +2,16 @@
 
 Backend server for the LayerZero AI search application.
 
+## Deployment Info
+
+The server is deployed at: https://lzindex-server.onrender.com
+
 ## Environment Variables
 
 The following environment variables are required:
 
 ```
-PORT=5000
+PORT=10000
 FRONTEND_URL=https://lz-ai.vercel.app
 ES_URL=your-elasticsearch-url
 ES_USERNAME=elastic

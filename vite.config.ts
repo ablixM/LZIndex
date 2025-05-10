@@ -16,7 +16,7 @@ export default defineConfig({
       "/api": {
         target:
           process.env.API_URL ||
-          "https://lz-ai-server.onrender.com" ||
+          "https://lzindex-server.onrender.com" ||
           "http://localhost:5000",
         changeOrigin: true,
         secure: false,
