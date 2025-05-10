@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration for development
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "*",
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -41,5 +41,5 @@ app.get("/", (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

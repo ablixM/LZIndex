@@ -50,9 +50,7 @@ export function SearchTabs() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/search?q=${encodeURIComponent(
-          keyword
-        )}&type=${contentType}`
+        `/api/search?q=${encodeURIComponent(keyword)}&type=${contentType}`
       );
 
       if (!response.ok) {
@@ -92,16 +90,16 @@ export function SearchTabs() {
   return (
     <div className="w-full">
       <Tabs defaultValue="ask" className="w-full rounded-sm">
-        <TabsList className="w-full mb-4 rounded-sm h-16">
+        <TabsList className="w-full mb-4 rounded-sm h-12 md:h-16">
           <TabsTrigger
             value="ask"
-            className="flex-1 py-6 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            className="flex-1 py-2 md:py-4 px-4 text-sm md:text-base rounded-sm cursor-pointer"
           >
             Ask a question
           </TabsTrigger>
           <TabsTrigger
             value="keyword"
-            className="flex-1 py-6 px-4 text-sm md:text-base rounded-sm cursor-pointer"
+            className="flex-1 py-2 md:py-4 px-4 text-sm md:text-base rounded-sm cursor-pointer"
           >
             Keyword Search
           </TabsTrigger>
@@ -110,7 +108,7 @@ export function SearchTabs() {
         <TabsContent value="ask" className="mt-0">
           <div className="flex flex-col space-y-4">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none p-4 rounded-sm">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none p-2 md:p-4 rounded-sm">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
                   aria-hidden="true"
@@ -128,7 +126,7 @@ export function SearchTabs() {
                 </svg>
               </div>
               <Input
-                className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-sm md:text-base rounded-sm p-8 px-16"
+                className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-xs md:text-base rounded-sm p-8 px-16"
                 type="search"
                 placeholder="Ask anything about LayerZero"
                 value={keyword}
@@ -196,7 +194,7 @@ export function SearchTabs() {
                   </svg>
                 </div>
                 <Input
-                  className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-sm md:text-base rounded-sm p-8 px-16"
+                  className="pl-10 bg-secondary/50 border-0 focus:ring-1 focus:ring-primary/20 text-xs md:text-base rounded-sm p-8 px-16"
                   type="search"
                   placeholder="Search keywords"
                   value={keyword}
@@ -244,7 +242,7 @@ export function SearchTabs() {
                 {keywordOptions.map((keywordOption) => (
                   <div
                     key={keywordOption}
-                    className="bg-background border border-border py-2 px-4 text-sm md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors whitespace-nowrap"
+                    className="bg-background border border-border py-2 px-4 text-xs md:text-base rounded-sm hover:border-primary/50 cursor-pointer transition-colors whitespace-nowrap"
                     onClick={() => handleKeywordClick(keywordOption)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
