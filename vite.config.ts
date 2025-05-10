@@ -14,7 +14,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: process.env.API_URL || "http://localhost:5000",
+        target:
+          process.env.API_URL ||
+          "https://lz-ai-server.onrender.com" ||
+          "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },
