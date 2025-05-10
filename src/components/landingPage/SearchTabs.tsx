@@ -54,11 +54,30 @@ export function SearchTabs() {
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to fetch search results");
+        try {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.error ||
+              `Error: ${response.status} ${response.statusText}`
+          );
+        } catch (jsonError) {
+          // If the response is not JSON, handle it differently
+          throw new Error(
+            `Error: ${response.status} ${response.statusText}. The API endpoint may not be available.`
+          );
+        }
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error("Failed to parse JSON response:", jsonError);
+        throw new Error(
+          "The API returned an invalid response. Please check server configuration."
+        );
+      }
+
       setResults(data);
     } catch (err) {
       console.error("Search error:", err);

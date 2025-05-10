@@ -31,7 +31,7 @@ export function SearchResults({
       <div className="mt-8 p-6 border border-border rounded-sm flex items-center justify-center">
         <div className="flex flex-col items-center">
           <div className="h-8 w-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-4 text-xs md:text-base text-muted-foreground">
             Searching for "{keyword}"...
           </p>
         </div>
@@ -41,7 +41,7 @@ export function SearchResults({
 
   if (error) {
     return (
-      <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-sm text-red-600">
+      <div className="mt-8 p-4 text-xs md:text-base bg-red-50 border border-red-200 rounded-sm text-red-600">
         {error}
       </div>
     );
@@ -49,7 +49,7 @@ export function SearchResults({
 
   if (results.length === 0) {
     return (
-      <div className="mt-8 p-4 bg-secondary/30 border border-border rounded-sm">
+      <div className="mt-8 p-4 bg-secondary/30 border border-border rounded-sm text-xs md:text-base">
         No results found for "{keyword}". Try a different search term.
       </div>
     );
@@ -59,7 +59,7 @@ export function SearchResults({
     <div className="mt-8 space-y-6">
       <h2 className="text-xl font-semibold">Search Results for "{keyword}"</h2>
       <div className="flex justify-between items-center">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs md:text-base text-muted-foreground">
           Found {results.length} result{results.length !== 1 ? "s" : ""}
         </p>
       </div>
@@ -127,7 +127,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
 
       {result.matchingTimestamps && result.matchingTimestamps.length > 0 && (
         <div className="mb-4">
-          <p className="text-sm text-muted-foreground mb-2">
+          <p className="text-xs md:text-base text-muted-foreground mb-2">
             Jump to relevant parts:
           </p>
           <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -142,7 +142,9 @@ function SearchResultCard({ result }: { result: SearchResult }) {
                 <span className="text-primary font-medium">
                   {formatTime(timestamp.start)}
                 </span>
-                <span className="text-sm truncate">{timestamp.text}</span>
+                <span className="text-xs md:text-base truncate">
+                  {timestamp.text}
+                </span>
               </a>
             ))}
           </div>
@@ -154,14 +156,14 @@ function SearchResultCard({ result }: { result: SearchResult }) {
           href={result.youtubeLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-sm text-sm hover:bg-primary/90 transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-sm text-xs md:text-base hover:bg-primary/90 transition-colors"
         >
           Watch on YouTube
         </a>
         {result.downloadLink && (
           <a
             href={result.downloadLink}
-            className="inline-flex items-center px-4 py-2 bg-secondary text-secondary-foreground rounded-sm text-sm hover:bg-secondary/90 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-secondary text-secondary-foreground rounded-sm text-xs md:text-base hover:bg-secondary/90 transition-colors"
           >
             Download
           </a>

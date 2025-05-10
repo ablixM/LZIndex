@@ -94,8 +94,8 @@ export default function Navbar() {
   return (
     <nav className="border-border/40">
       <div className="max-w-[1400px] mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="font text-2xl sm:text-md md:text-lg ">
-          LZAI
+        <Link to="/" className="font-bold text-2xl sm:text-md md:text-lg ">
+          LZIndex
         </Link>
 
         {/* Desktop Navigation */}
