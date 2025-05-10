@@ -35,16 +35,16 @@ export function Hero() {
     <div className="relative ">
       <div className="absolute top-0 left-0 w-full h-1/2 overflow-hidden">
         {/* Base dark overlay */}
-        <div className="absolute inset-0 bg-black/10 z-10 hidden md:block dark:block" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
+        {/* <div className="absolute inset-0 bg-black/10 z-10 hidden md:block dark:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" /> */}
 
         {/* Base image */}
-        <img
+        {/* <img
           src={heroImage}
           alt="Hero background"
           className="absolute object-cover w-full h-full"
           loading="eager"
-        />
+        /> */}
       </div>
 
       {/* Main Content */}
@@ -53,7 +53,7 @@ export function Hero() {
         animate="visible"
         variants={containerVariants}
         className={cn(
-          "relative z-20 flex flex-col items-center justify-start p-4",
+          "relative z-20 flex flex-col items-center justify-start p-4 md:mt-10",
           "bg-gradient-to-b from-transparent from-50% to-background to-50%"
         )}
       >

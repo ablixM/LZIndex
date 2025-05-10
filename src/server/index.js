@@ -1,7 +1,13 @@
-const express = require('express');
-const path = require('path');
-const dotenv = require('dotenv');
-const searchRoute = require('./routes/search');
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import cors from "cors";
+import searchRoute from "./routes/search.js";
+
+// Get current file path (ES modules don't have __dirname)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -10,31 +16,30 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// CORS configuration for development
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+// Parse JSON bodies
+app.use(express.json());
+
 // Middleware to serve static frontend files
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, "../../public")));
 
 // API Routes
-app.use('/api/search', searchRoute);
+app.use("/api/search", searchRoute);
 
 // Default route to serve the frontend (for single-page apps)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Log all registered routes
-app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-        console.log(`Route: ${middleware.route.path}`);
-    } else if (middleware.name === 'router') {
-        middleware.handle.stack.forEach((handler) => {
-            if (handler.route) {
-                console.log(`Route: ${handler.route.path}`);
-            }
-        });
-    }
+app.get("/", (req, res) => {
+  res.send("LayerZero AI API Server is running");
 });
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

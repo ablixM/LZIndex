@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+# LayerZero AI Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A search application for LayerZero content using Elasticsearch.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Create a `.env` file in the root directory with the following contents:
 
-## Expanding the ESLint configuration
+   ```
+   # Server Configuration
+   PORT=5000
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+   # ElasticSearch Configuration
+   ES_URL=http://localhost:9200
+   ES_USERNAME=elastic
+   ES_PASSWORD=changeme
 
-- Configure the top-level `parserOptions` property like this:
+   # Frontend URL for CORS (if needed)
+   FRONTEND_URL=http://localhost:5173
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+   Adjust the values according to your Elasticsearch setup.
+
+## Running the Application
+
+You can run both the server and frontend concurrently:
+
+```
+npm run start
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Or run them separately:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+# Run the frontend only
+npm run dev
+
+# Run the server only
+npm run server
+```
+
+The frontend will be available at http://localhost:5173 and the server at http://localhost:5000.
+
+## API Endpoints
+
+- `GET /api/search?q=<query>` - Search for content matching the query
+
+## Technologies Used
+
+- Frontend: React, TypeScript, TailwindCSS
+- Backend: Express.js, Elasticsearch
+- Development: Vite, Nodemon, Concurrently
